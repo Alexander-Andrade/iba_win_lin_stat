@@ -18,20 +18,21 @@ private:
 		return s; 
 }
 	ostream& outWinSysInfo(ostream& s){
-#if defined(_WIN64) || defined(_WIN632)
+#if defined(_WIN64) || defined(_WIN632) || defined(__CYGWIN__)
 	MEMORYSTATUSEX memInfo;
 	memset(&memInfo, 0, sizeof(MEMORYSTATUSEX));
 	memInfo.dwLength = sizeof(MEMORYSTATUSEX);
 	GlobalMemoryStatusEx(&memInfo);	
 	s.fill('.');
+	int kB = 1024;
 	int col_size = 40;
-	s << setw(col_size) << left << "Memory in use(%): " << info.memInfo.dwMemoryLoad << endl <<
-			setw(col_size) << left << "phisical memory (KB): " << info.memInfo.ullTotalPhys / kB << endl <<
-			setw(col_size) << left << "phisical free memory (KB): " << info.memInfo.ullAvailPhys / kB << endl <<
-			setw(col_size) << left << "paging file total memory (KB): " << info.memInfo.ullTotalPageFile / kB << endl <<
-			setw(col_size) << left << "paging file free memory (KB): " << info.memInfo.ullAvailPageFile / kB << endl <<
-			setw(col_size) << left << "virtual memory (KB): " << info._memInfo.ullTotalVirtual / kB << endl <<
-			setw(col_size) << left << "virtual memory free (KB): " << info.memInfo.ullAvailVirtual / kB;
+	s << setw(col_size) << left << "Memory in use(%): " << memInfo.dwMemoryLoad << endl <<
+			setw(col_size) << left << "phisical memory (KB): " << memInfo.ullTotalPhys / kB << endl <<
+			setw(col_size) << left << "phisical free memory (KB): " << memInfo.ullAvailPhys / kB << endl <<
+			setw(col_size) << left << "paging file total memory (KB): " << memInfo.ullTotalPageFile / kB << endl <<
+			setw(col_size) << left << "paging file free memory (KB): " << memInfo.ullAvailPageFile / kB << endl <<
+			setw(col_size) << left << "virtual memory (KB): " << memInfo.ullTotalVirtual / kB << endl <<
+			setw(col_size) << left << "virtual memory free (KB): " << memInfo.ullAvailVirtual / kB;
 #endif
 	return s; 
 }
@@ -42,7 +43,7 @@ public:
 	ostream& outSysInfo(ostream& s){
 	#if defined(__linux__)
 	return outLinuxSysInfo(s);
-	#elif defined(_WIN64) || defined(_WIN632)
+	#elif defined(_WIN64) || defined(_WIN632) || defined(__CYGWIN__)
 	return outWinSysInfo(s);
 	#endif
 	}

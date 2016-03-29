@@ -7,7 +7,7 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 
-#elif defined(_WIN64) || defined(_WIN632)
+#elif defined(_WIN64) || defined(_WIN632) || defined(__CYGWIN__)
 
 #include <Windows.h>
 

@@ -1,13 +1,12 @@
-PROGRAM = SysThreading.exe
-CPPSOURCES = main.cpp
-CPPOBJECTS = main.obj
-CPPFLAGS = /RTC1 /EHsc
-CPP = icl
-#link objects
-$(PROGRAM): $(CPPOBJECTS)
-	link.exe /out:$@ $(CPPOBJECTS)
-#build objects
-main.obj:  main.cpp Thread.h WinThread.h
+CC=g++
+CFLAGS=-std=c++11 
+DEPS=WinThread.h LiThread.h Thread.h Headers.h 
+OBJ=main.o
+
+%.o: %.cpp $(DEPS)
+	$(CC) $(CFLAGS) -c -o $@ $< 
+
+SysThreading: $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $^ 
+
 	
-#clean
-clean: del $(CPPOBJECTS) $(PROGRAM)
